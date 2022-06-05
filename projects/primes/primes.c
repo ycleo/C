@@ -8,6 +8,7 @@ void printPrimes (int *primes, int primeIndex) {
         i++;
     }
     printf("\n");
+    return;
 }
 
 int main() {
