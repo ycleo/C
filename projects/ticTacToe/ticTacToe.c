@@ -10,7 +10,7 @@ int main () {
     int move = 0;
     int currentPlayer = 1;
     int markPosition = 0;
-    char board[9] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    char board[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
     while (move < 9) {
         // draw the game board
@@ -23,17 +23,18 @@ int main () {
         // mark the board
         markBoard(board, currentPlayer, markPosition);
 
-        // check whether player win the game or not
+        // check whether player won the game or not
         if (checkForWin(board, currentPlayer)) {
             drawBoard(board);
             break;
         }
 
-        // switch the player
+        // switch the player and record the game progress
         currentPlayer = currentPlayer == 1 ? 2 : 1;
         move++;
     }
 
+    // display the game result
     if (move < 9) 
         printf("The winner is Player %d!\n", currentPlayer);
     else
@@ -42,6 +43,9 @@ int main () {
     return 0;
 }
 
+/**********************************************
+Function to draw the game board for each round
+ **********************************************/
 void drawBoard(char board[]) {
     system("clear");
     printf("         Tic Tac Toe\n\n");
@@ -56,6 +60,10 @@ void drawBoard(char board[]) {
     }
 }
 
+/****************************************
+Function to check the validity of the 
+move spot and let players mark the board
+ ****************************************/
 void markBoard(char board[], int currentPlayer, int markPosition) {
     char mark = currentPlayer == 1 ? 'X' : 'O';
     char opponentMark = currentPlayer == 1 ? 'O' : 'X';
@@ -71,23 +79,26 @@ void markBoard(char board[], int currentPlayer, int markPosition) {
     return;
 }
 
+/******************************************************
+Function to check whether the game has a winner or not
+ ******************************************************/
 bool checkForWin(char board[], int currentPlayer) {
     char mark = currentPlayer == 1 ? 'X' : 'O';
 
     int i;
-    // check the vertical line
+    // check the vertical lines
     for (i = 0; i < 3; i++) {
         if (board[i] == mark && board[i + 3] == mark && board[i + 6] == mark) 
             return true;
     }
 
-    // check the horizontal line
+    // check the horizontal lines
     for (i = 0; i < 6; i += 3) {
         if(board[i] == mark && board[i + 1] == mark && board[i + 2] == mark) 
             return true;
     }
     
-    // check the slash
+    // check the slashes
     if (board[4] == mark) {
         if ((board[0] == mark && board[8] == mark) || (board[2] == mark && board[6] == mark))
             return true; 
