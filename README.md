@@ -3,7 +3,7 @@
 - [Compilation process](https://www.javatpoint.com/compilation-process-in-c)
 - [Using Clang in VS Code](https://code.visualstudio.com/docs/cpp/config-clang-mac)
 - Preprocessor
-    - Preprocessor statements are identified by the ==pound sign(#)==
+    - Preprocessor statements are identified by the **pound sign(#)**
     - 1st challenge used a preprocessor directive, specifically **#include** 
     - Create constants and macros by **#def**
     - Conditional statements: **#ifdef**, **#endif**, **#else**, **#ifndef**
@@ -180,11 +180,11 @@ int main() {
     char word[3] = { "Hi" };  // 'H', 'i', '\0'
 
     char str[50] = "Good"; 
-    /**********************
+    /*****************************************************
     1. initialize the first 4 elements (str[0] to str[3])
     2. str[4] -> '\0'
     3. space is still allocated for all 50 elements 
-    ***********************/
+    ******************************************************/
     printf("%s\n", str); // Good
     
     return 0;
@@ -368,8 +368,6 @@ int main () {
 }
 ```
 
-
-
 ---
 
 ## Pointers
@@ -503,8 +501,8 @@ int main () {
 ### Pointers and Const
 ```c=
 int num = 10;
-const int *ptr1 = &num; // Case 1: Value of num cannot be changed
-int *const ptr2 = &num; // Case 2: Pointer address cannot be changed 
+const int *ptr1 = &num; // Case 1: The dereference value of the pointer cannot be changed
+int *const ptr2 = &num; // Case 2: The address of the pointer cannot be changed 
 const int *const ptr3 = &num; // Case 3: 1 + 2
 ```
 - Case 1: `const int *ptr`
@@ -664,12 +662,113 @@ int *ptr1, *ptr2;
 ptr1++;
 ptr2 = ptr1 + 2;
 ptr2 = urn + 1;
+int len = ptr2 - ptr1;
 
 // Invalid
 urn++; 
-ptr2 = ptr2 + ptr1;
+ptr2 = ptr2 + ptr1; // make no sense to add two addresses
 ptr2 = urn * ptr1;
 ```
+
+### Dynamic Memory Allocation
+1. Allows memory for storing data to be **allocated dynamically when the program executes**
+2. Allows programmers to create pointers at runtime that are just enough to hold the amount of required data -> **saving memory**
+#### Heap vs. Stack
+- **Heap**
+    - dynamic memory allocation reserves space in a memory area called heap
+    - When you store data on the heap it allows for more change. You can arbitrarily change the size of data objects
+    - It sticks around a lot longer when programmers allocate memory in a heap, and it is programmers' duty to keep track of when the allocated memory is no longer required 
+- **Stack** 
+    - **Function arguments** and **local varialbes in a function** are stored in stack
+    - So when you execute a funtion, it gets put on the stack. You don't control  stuff on the stack. It automatically gets allocated and deleted
+#### [malloc](https://cplusplus.com/reference/cstdlib/malloc/?kw=malloc): Allocate memory block
+- `void* malloc (size_t size);`
+- Need to include `stdlib.h`
+- The argument is the number of **bytes** of memory that you want to allocate
+- Returns the **address (pointer)** of the first byte of allocated memory
+- The content of the newly allocated block of memory is not initialized, remaining with **indeterminate values**.
+
+![](https://i.imgur.com/nNrPSsX.png)
+
+- If the memory cannot be allocated for any reason
+    - `malloc()` returns a pointer with the value `NULL`
+    - It is always a good idea to check any dynamic memory allocation request immediately with an `if` statement to **make sure the memory has been allocated**
+
+```c=  
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    char *pStr = (char *)malloc(-1)
+    
+    printf("pStr = %p\n", pStr); 
+
+    if (pStr == NULL) { // or (!pStr)
+        printf("Memory allocation failed\n");
+        exit(1);
+    } 
+
+    printf("Memory allocation succeeded\n");
+    free(pStr);    // deallocate memory space
+    pStr = NULL;   // make pStr points to nothing
+
+    /***************************
+     * pStr == 0x0
+     * Memory allocation failed
+     * *************************/
+
+    return 0;
+}
+```
+
+- Other related function: [calloc](https://cplusplus.com/reference/cstdlib/calloc/?kw=calloc), [realloc](https://cplusplus.com/reference/cstdlib/realloc/)
+
+```c=
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+
+    char *pStr = NULL;
+
+    // initail memory allocation 
+    pStr = (char *)malloc(3 * sizeof(char));
+    strcpy(pStr, "Hi");
+    printf("String = %s, Address = %p\n", pStr, pStr);
+
+    // reallocating memory
+    pStr = (char *)realloc(pStr, 6 * sizeof(char));
+    strcat(pStr, " Leo!");
+    printf("String = %s, Address = %p\n", pStr, pStr);
+
+    free(pStr);    // deallocate memory space
+    pStr = NULL;   // make pStr points to nothing
+
+    /*********************************************
+     * String = Hi, Address = 0x600003664020
+     * String = Hi Leo!, Address = 0x600003664020
+     * *******************************************/
+
+    return 0;
+}
+```
+
+- Memory that you allocated on the heap will be automatically released when your program ends, but better to explicitly **release** the memory when it is no longer being used
+- A **memory leak** occurs when you allocate some memory dynamically and you did **not retain the reference** to it, so you are unable to release the memory
+    - often occurs within a loop, your program will consume more and more of the available memory on each loop iteration and eventually occupy it all
+- To free the dynamically allocated memory, you must still have the access to the address that references to the memory block
+#### [free](https://cplusplus.com/reference/cstdlib/free/?kw=free): Deallocate memory block
+- `void free (void* ptr);`
+
+![](https://i.imgur.com/VUzpyon.png)
+
+- Interview Question: What are **memory leaks** and **buffer overflows**?
+- Answers:
+    - [Buffer Overflow and Memory Leak - Wentz Wu](https://wentzwu.com/2021/03/31/buffer-overflow-and-memory-leak/)
+    - [The difference between memory overflow and memory leak](https://topic.alibabacloud.com/a/the-difference-between-memory-overflow-and-memory-leak-and-how-to-avoid-memory-overflow_8_8_20291168.html)
+    
+---
 
 ## Debugging
 
