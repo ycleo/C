@@ -2,12 +2,12 @@
 ## Basic Concepts
 - [Compilation process](https://www.javatpoint.com/compilation-process-in-c)
 - [Using Clang in VS Code](https://code.visualstudio.com/docs/cpp/config-clang-mac)
-- Preprocessor
+- [Preprocessor](https://www.tutorialspoint.com/cprogramming/c_preprocessors.htm)
     - Preprocessor statements are identified by the **pound sign(#)**
     - 1st challenge used a preprocessor directive, specifically **#include** 
     - Create constants and macros by **#def**
     - Conditional statements: **#ifdef**, **#endif**, **#else**, **#ifndef**
-- Header files
+- [Header files](https://www.tutorialspoint.com/cprogramming/c_header_files.htm)
     - Define information about some of the functions that are provided by the files, and its name should always be **lowercase**
     - **#include <file.h>** tells the preprocessor to look for the file in one or more standard system directories
     - **#include "file.h"** tells the preprocessor to first look into the current directory
