@@ -853,8 +853,31 @@ int main() {
 
 - Interview Question: What are **memory leaks** and **buffer overflows**?
 - Answers:
-  - [Buffer Overflow and Memory Leak - Wentz Wu](https://wentzwu.com/2021/03/31/buffer-overflow-and-memory-leak/)
-  - [The difference between memory overflow and memory leak](https://topic.alibabacloud.com/a/the-difference-between-memory-overflow-and-memory-leak-and-how-to-avoid-memory-overflow_8_8_20291168.html)
+  - Memory Leak: - A memory leak occurs when a program allocates memory (using functions like malloc in C or new in C++) but fails to release or deallocate that memory when it is no longer needed. - Over time, if a program repeatedly allocates memory without releasing it, it can consume an increasing amount of memory, leading to performance degradation and eventually causing the program to run out of memory. - Memory leaks are a common source of issues in long-running programs, such as server applications or daemons, where the program continues to run for extended periods.
+    Example:
+
+```c=
+void memoryLeakExample() {
+    int *ptr = new int; // Allocate memory
+    // No delete statement to release the allocated memory
+}
+```
+
+- Buffer Overflow: - A buffer overflow occurs when a program writes more data into a buffer (e.g., an array) than it can hold, leading to the overwriting of adjacent memory. - Buffer overflows can result in unpredictable behavior, crashes, and security vulnerabilities. Attackers can exploit buffer overflows to inject malicious code into a program's memory, leading to security breaches. - Common scenarios for buffer overflows include using functions like strcpy or sprintf in C without proper bounds checking.
+  Example:
+
+```c=
+void bufferOverflowExample() {
+    char buffer[5]; // Buffer can hold only 4 characters plus the null terminator
+    strcpy(buffer, "Overflow"); // Writing more than the buffer size
+}
+```
+
+Both memory leaks and buffer overflows can be challenging to debug and fix. To mitigate these issues:
+
+- For memory leaks, it's essential to track memory allocations and ensure that corresponding deallocation (using free in C or delete in C++) is performed when the memory is no longer needed.
+- For buffer overflows, developers should use functions that perform bounds checking (e.g., strncpy instead of strcpy in C) and adopt safer alternatives such as using smart pointers in C++ or array classes that perform bounds checking.
+- Additionally, modern programming languages and tools often include features or mechanisms to help prevent and detect these issues, such as automatic memory management (garbage collection) in languages like Java or C#, and bounds checking in languages like Rust.
 
 ---
 
