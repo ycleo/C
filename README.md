@@ -853,8 +853,11 @@ int main() {
 
 - Interview Question: What are **memory leaks** and **buffer overflows**?
 - Answers:
-  - Memory Leak: - A memory leak occurs when a program allocates memory (using functions like malloc in C or new in C++) but fails to release or deallocate that memory when it is no longer needed. - Over time, if a program repeatedly allocates memory without releasing it, it can consume an increasing amount of memory, leading to performance degradation and eventually causing the program to run out of memory. - Memory leaks are a common source of issues in long-running programs, such as server applications or daemons, where the program continues to run for extended periods.
-    Example:
+  - Memory Leak:
+    - A memory leak occurs when a program allocates memory (using functions like malloc in C or new in C++) but fails to release or deallocate that memory when it is no longer needed.
+    - Over time, if a program repeatedly allocates memory without releasing it, it can consume an increasing amount of memory, leading to performance degradation and eventually causing the program to run out of memory.
+    - Memory leaks are a common source of issues in long-running programs, such as server applications or daemons, where the program continues to run for extended periods.
+      Example:
 
 ```c=
 void memoryLeakExample() {
@@ -863,8 +866,11 @@ void memoryLeakExample() {
 }
 ```
 
-- Buffer Overflow: - A buffer overflow occurs when a program writes more data into a buffer (e.g., an array) than it can hold, leading to the overwriting of adjacent memory. - Buffer overflows can result in unpredictable behavior, crashes, and security vulnerabilities. Attackers can exploit buffer overflows to inject malicious code into a program's memory, leading to security breaches. - Common scenarios for buffer overflows include using functions like strcpy or sprintf in C without proper bounds checking.
-  Example:
+- Buffer Overflow:
+  - A buffer overflow occurs when a program writes more data into a buffer (e.g., an array) than it can hold, leading to the overwriting of adjacent memory.
+  - Buffer overflows can result in unpredictable behavior, crashes, and security vulnerabilities. Attackers can exploit buffer overflows to inject malicious code into a program's memory, leading to security breaches.
+  - Common scenarios for buffer overflows include using functions like strcpy or sprintf in C without proper bounds checking.
+    Example:
 
 ```c=
 void bufferOverflowExample() {
