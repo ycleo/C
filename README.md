@@ -914,3 +914,127 @@ Both memory leaks and buffer overflows can be challenging to debug and fix. To m
 - The compiler shows 2 types of problems
   1. errors
   2. warnings
+ 
+## Structures
+### Create and Update Structures
+```c=
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct Date {
+    int day;
+    int month;
+    int year;
+    char *pViewer;
+};
+
+int main() {
+
+    /* initialize the today struct variable */
+    struct Date today = { 13, .year = 2022, .pViewer = (char *)calloc(50, sizeof(char)) };
+    // '.' is the member selection operator
+    strcpy(today.pViewer, "Leo");
+    today.month = 6;  
+    printf("%s's notification: Today is %d-%d-%d.\n", today.pViewer, today.year, today.month, today.day);
+    
+    // Assignment with compund literals
+    today = (struct Date) { 1, 1, 2023 };  
+    printf("%s's notification: Today is %d-%d-%d.\n", today.pViewer, today.year, today.month, today.day);
+
+    return 0;
+}
+```
+
+### Structures and Pointers
+- **Pointers to structures** are easier to manipulate than structures themselves
+- Passing a pointer as an argument into a function is more efficient because you only pass in the address instead a whole data
+- Hence, many data representations use structures containing pointers to other structures
+
+```c=
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct Time {
+    int second;
+    int minute;
+    int hour;
+} now = {30, 28, 11};
+
+struct Date {
+    int day;
+    int month;
+    int year;
+    struct Time *time;
+};
+
+int main() {
+
+    /* initialize the today struct variable */
+    struct Date today = { 13, 6, 2022, .time = &now };
+    
+    printf("Today is %d-%d-%d\n", today.year, today.month, today.day);
+    printf("Now is %d:%d:%d\n", (*today.time).hour, today.time -> minute, today.time -> second);
+    // There are 2 ways of accessing member of the "now" data structure
+    // (*pointer).dataVariable
+    // pointer -> dataVariable
+
+    return 0;
+}
+```
+- (Note) member selection operator (`.`) has a **greater precedence** than the indirection operator (`*`)
+
+### Character Arrays & Character Pointers in Structures
+#### Character Array
+```c=
+struct Name {
+    char firstName[20];
+    char lastName[20];
+};
+``` 
+- When initialize a `struct Name` type variables (ex) `struct Name manager = {"Bob", "Vander"};`
+    - Strings are stored inside the structure
+    - Structure has allocated total 40 bytes for the two character arrays
+#### Character Pointer
+```c=
+struct PName {
+    char *firstName;
+    char *lastName;
+};
+```
+- When initialize a `struct PName` type variables (ex) `struct PName engineer = {"Leo", "Lee"};`
+    - Strings are stored wherever the compiler stores string constants
+    - Structure has allocated total 16 bytes for the two character pointers
+    - It can be used **only with strings that have had space allocated** for them elsewhere
+
+```c=
+#include <stdio.h>
+
+struct Name {
+    char firstName[20];
+    char lastName[20];
+};
+
+struct PName {
+    char *firstName;
+    char *lastName;
+};
+
+int main() {
+
+    char engineerFirstName[] = "Leo";
+    char engineerLastName[] = "Lee";
+
+    struct Name manager = { "Bob", "Vander" };
+    struct PName engineer;
+
+    engineer.firstName = engineerFirstName;
+    engineer.lastName = engineerLastName;
+
+    printf("%s and %s\n", manager.firstName, engineer.firstName);
+    // Bob and Leo
+    
+    return 0;
+}
+```
