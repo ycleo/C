@@ -766,6 +766,10 @@ ptr2 = urn * ptr1;
   - **Function arguments** and **local varialbes in a function** are stored in stack
   - So when you execute a funtion, it gets put on the stack. You don't control stuff on the stack. It automatically gets allocated and deleted
 
+![image](https://hackmd.io/_uploads/rye8GWmca.png)
+
+![image](https://hackmd.io/_uploads/HkEvMbX5T.png)
+
 #### [malloc](https://cplusplus.com/reference/cstdlib/malloc/?kw=malloc): Allocate memory block
 
 - `void* malloc (size_t size);`
